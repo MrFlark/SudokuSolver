@@ -1,0 +1,37 @@
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+
+
+aabbccdee
+fgghijdke
+fffhijjkk
+flmnnnokp
+fmmqqnoop
+rssttuvww
+rsxxuuvww
+yzxABCDwF
+yzzABCDEF
+
+a,8
+b,7
+c,9
+d,11
+e,19
+f,33
+
+
+
+// notation
+cage[cell_1, cell_2, ..., cell_n]
+cell = (x, y)
+
+// example
+20[(0,0),(0,1),(1,0)]
+7[(0,0), (1,0)]
