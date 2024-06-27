@@ -11,14 +11,16 @@ const strategies = [
     new UniqueNumsInSquareStrategy()
 ];
 
-const sudokuBoard = new SudokuBoard();
-
-sudokuBoard.load("testData/regular/easy.txt");
-
-console.log("== input board ==");
-sudokuBoard.print();
-
-strategies.forEach(strategy => {
-    strategy.apply(sudokuBoard);
-    sudokuBoard.print();
-});
+export function solve (board: SudokuBoard): void {
+    
+    console.log("== input board ==");
+    board.print();
+    
+    strategies.forEach(strategy => {
+        console.log("applying strategy: " + strategy.name);
+        let numCandidatesExcluded = strategy.apply(board);
+        console.log("candidates excluded: " + numCandidatesExcluded);
+        
+        board.print();
+    });
+}

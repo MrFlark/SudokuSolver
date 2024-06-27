@@ -16,25 +16,10 @@ export class SudokuBoard {
 
     public readonly CONSOLE_WIDTH = 100;
 
-    constructor() {
+    load(fileName: string): void {
 
-        // TODO: real data
-        this.board = [
-            [new Cell(), new Cell(2), new Cell(3), new Cell(4), new Cell(5), new Cell(6), new Cell(7), new Cell(8), new Cell(9)],
-            [new Cell(2), new Cell(2), new Cell(3), new Cell(4), new Cell(5), new Cell(6), new Cell(7), new Cell(8), new Cell(9)],
-            [new Cell(3), new Cell(2), new Cell(3), new Cell(4), new Cell(5), new Cell(6), new Cell(7), new Cell(8), new Cell(9)],
-            [new Cell(4), new Cell(2), new Cell(3), new Cell(4), new Cell(5), new Cell(6), new Cell(7), new Cell(8), new Cell(9)],
-            [new Cell(5), new Cell(2), new Cell(3), new Cell(4), new Cell(5), new Cell(6), new Cell(7), new Cell(8), new Cell(9)],
-            [new Cell(6), new Cell(2), new Cell(3), new Cell(4), new Cell(5), new Cell(6), new Cell(7), new Cell(8), new Cell(9)],
-            [new Cell(7), new Cell(2), new Cell(3), new Cell(4), new Cell(5), new Cell(6), new Cell(7), new Cell(8), new Cell(9)],
-            [new Cell(8), new Cell(2), new Cell(3), new Cell(4), new Cell(5), new Cell(6), new Cell(7), new Cell(8), new Cell(9)],
-            [new Cell(9), new Cell(2), new Cell(3), new Cell(4), new Cell(5), new Cell(6), new Cell(7), new Cell(8), new Cell(9)]
-        ];
-    }
-
-    async load(fileName: string): Promise<void> {
         try {
-            const data = await fs.promises.readFile(fileName, 'utf-8');
+            const data = fs.readFileSync(fileName, 'utf-8');
             const lines = data.trim().split(/\r?\n/);
             const EMPTY_VALUE = '.';
             const board: Cell[][] = [];
@@ -48,6 +33,7 @@ export class SudokuBoard {
                 board.push(row);
             }
             this.board = board;
+
             // TODO parse cage info
         } catch(error) {
             console.error(error);

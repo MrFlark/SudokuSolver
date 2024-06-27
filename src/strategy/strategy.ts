@@ -5,7 +5,7 @@ export abstract class Strategy {
 
     name: string;
     
-    abstract apply(board: SudokuBoard): void;
+    abstract apply(board: SudokuBoard): number;
 
     constructor(name: string) {
         this.name = name;
