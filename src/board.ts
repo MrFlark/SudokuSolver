@@ -17,6 +17,8 @@ export class SudokuBoard {
     public readonly CONSOLE_WIDTH = 100;
 
     constructor() {
+
+        // TODO: real data
         this.board = [
             [new Cell(1), new Cell(2), new Cell(3), new Cell(4), new Cell(5), new Cell(6), new Cell(7), new Cell(8), new Cell(9)],
             [new Cell(2), new Cell(2), new Cell(3), new Cell(4), new Cell(5), new Cell(6), new Cell(7), new Cell(8), new Cell(9)],
@@ -90,6 +92,7 @@ export class SudokuBoard {
         return this.board[rowIndex][columnIndex];
     }
 
+    // TODO: cages, variable width spacing
     print(): void {
         /**
          * https://www.w3.org/TR/xml-entity-names/025.html
@@ -239,15 +242,3 @@ export class SudokuBoard {
         }
     }
 }
-
-
-// refs to cells
-//   cages
-//   rows
-//   columns
-//   squares
-
-
-// functions
-//  display
-//  is solved

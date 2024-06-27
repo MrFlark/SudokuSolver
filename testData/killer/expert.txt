@@ -7,8 +7,6 @@
 .........
 .........
 .........
-
-
 aabbccdee
 fgghijdke
 fffhijjkk
@@ -18,20 +16,35 @@ rssttuvww
 rsxxuuvww
 yzxABCDwF
 yzzABCDEF
-
 a,8
 b,7
 c,9
 d,11
 e,19
 f,33
-
-
-
-// notation
-cage[cell_1, cell_2, ..., cell_n]
-cell = (x, y)
-
-// example
-20[(0,0),(0,1),(1,0)]
-7[(0,0), (1,0)]
+g,13
+h,13
+i,7
+j,16
+k,16
+l,6
+m,15
+n,13
+o,9
+p,17
+q,13
+r,7
+s,20
+t,11
+u,20
+v,13
+w,16
+x,15
+y,9
+z,9
+A,5
+B,17
+C,10
+D,8
+E,9
+F,11
