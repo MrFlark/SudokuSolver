@@ -1,5 +1,5 @@
 import { SudokuBoard } from "../../board";
-import { Cell } from "../../cell";
+import { Cell, CellCoordinates } from "../../cell";
 import { Strategy, StrategyApplicationResult } from "../strategy";
 
 // solves cells where only one instance of a candidate exists within a cell group
@@ -10,8 +10,9 @@ export abstract class UniqueCandidateStrategy extends Strategy {
     apply(board: SudokuBoard): StrategyApplicationResult {
 
         let cellsSolved = 0;
+        let solvedCellCoordinates: CellCoordinates[] = [];
 
-        this.getCellGroups(board).forEach(cellGroup => {
+        for (let cellGroup of this.getCellGroups(board)) {
             
             // find single-instance candidates within the cell group
             // iterate over possible candidate values
@@ -25,13 +26,20 @@ export abstract class UniqueCandidateStrategy extends Strategy {
                     // the cell group, solve that cell.
                     cellsWithCandidate[0].value = candidateValue;
                     cellsSolved++;
+
+                    solvedCellCoordinates.push(cellsWithCandidate[0].coordinates);
+                    
+                    // only solve 1 cell at a time.
+                    // this ensures other cell candidates are accurately updated.
+                    break;
                 }
             }
-        });
+        }
 
         return {
             candidatesExcluded: 0, // no candidates are excluded by this strategy
-            cellsSolved
+            cellsSolved,
+            solvedCellCoordinates
         };
     }
 }

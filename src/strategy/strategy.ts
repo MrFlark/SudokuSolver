@@ -1,5 +1,6 @@
 // superclass for sudoku solving strategies
 import { SudokuBoard } from "../board";
+import { CellCoordinates } from "../cell";
 
 export abstract class Strategy {
 
@@ -16,4 +17,5 @@ export abstract class Strategy {
 export type StrategyApplicationResult = {
     candidatesExcluded: number;
     cellsSolved: number;
+    solvedCellCoordinates?: CellCoordinates[];
 };

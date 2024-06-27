@@ -7,11 +7,15 @@ import {
     UniqueNumsInRowStrategy,
     UniqueNumsInSquareStrategy
 } from "./strategy";
+import { sleep } from "./util/sleep";
 
 const strategies = [
+    // candidate exclusion strategies
     new UniqueNumsInColumnStrategy(),
     new UniqueNumsInRowStrategy(),
     new UniqueNumsInSquareStrategy(),
+
+    // cell solving strategies
     new SingleCandidateStrategy(),
     new UniqueCandidateInColumnStrategy(),
     new UniqueCandidateInRowStrategy(),
@@ -32,6 +36,9 @@ export function solve (board: SudokuBoard): void {
     // or we are stuck.
     while(!halted) {
 
+        // clear terminal
+        console.clear();
+
         round++;
 
         console.log("\n\nstarting solver round " + round);
@@ -39,22 +46,26 @@ export function solve (board: SudokuBoard): void {
         let numCandidatesExcludedThisRound = 0;
         let numCellsSolvedThisRound = 0;
 
-
-        strategies.forEach(strategy => {
-            console.log("applying strategy: " + strategy.name);
+        for (let strategy of strategies) {
 
             let result = strategy.apply(board);
 
-            console.log("candidates excluded by this strategy: " + result.candidatesExcluded);
-            console.log("cells solved by this strategy: " + result.cellsSolved);
+            console.log(`applied strategy "${strategy.name}" => result { excluded: ${result.candidatesExcluded}, solved: ${result.cellsSolved} }`);
 
             numCandidatesExcludedThisRound += result.candidatesExcluded;
             numCellsSolvedThisRound += result.cellsSolved;
-    
-            console.log("board state:");
-            board.print();
 
-        });
+            if (result.cellsSolved > 0) {
+
+                board.print(result.solvedCellCoordinates);
+
+                sleep(500);
+
+                // only solve 1 cell per round
+                break;
+            }
+
+        };
 
         console.log("candidates excluded this round: " + numCandidatesExcludedThisRound);
         console.log("cells solved this round: " + numCellsSolvedThisRound);
@@ -63,6 +74,10 @@ export function solve (board: SudokuBoard): void {
             halted = true;
         }
 
+        if (board.isSolved()) {
+            console.log("board is solved!");
+            halted = true;    
+        }
     }
 
     console.log("program halted after " + round + " solving round(s). final board state:");

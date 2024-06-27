@@ -1,4 +1,4 @@
-import { Cell } from "./cell";
+import { Cell, CellCoordinates } from "./cell";
 import { Cage } from "./cage";
 import fs from "fs";
 
@@ -24,9 +24,14 @@ export class SudokuBoard {
             for (let lineIndex = 0; lineIndex < this.WIDTH; lineIndex++) {
                 const row: Cell[] = [];
                 for (let charIndex = 0; charIndex < this.HEIGHT; charIndex++) {
-                  const char = lines[lineIndex][charIndex];
-                  const value = char === EMPTY_VALUE ? undefined : parseInt(char, 10);
-                  row.push(new Cell(value));
+                    const char = lines[lineIndex][charIndex];
+                    const value = char === EMPTY_VALUE ? undefined : parseInt(char, 10);
+
+                    let c = new Cell(value);
+                    c.coordinates = { x: charIndex, y: lineIndex };
+                    c.given = value !== undefined;
+
+                    row.push(c);
                 }
                 board.push(row);
             }
@@ -76,8 +81,12 @@ export class SudokuBoard {
         return this.board.flat();
     }
 
+    isSolved(): boolean {
+        return this.getCells().every(cell => cell.isSolved());
+    }
+
     // TODO: cages, variable width spacing
-    print(): void {
+    print(cellsToHighlight?: CellCoordinates[]): void {
         /**
          * https://www.w3.org/TR/xml-entity-names/025.html
          */
@@ -205,7 +214,35 @@ export class SudokuBoard {
 
                 for (let colIndex = 0; colIndex < this.WIDTH; colIndex++) {
 
-                    let cell_value = this.board[rowIndex][colIndex].value || "?";
+                    let cell = this.board[rowIndex][colIndex];
+                    let cell_value = cell.value || "?";
+                    let hasColor = false;
+
+                    // check if cell should be highlighted
+                    for (let coordinates of cellsToHighlight || []) {
+                        if (coordinates.x === colIndex && coordinates.y === rowIndex) {
+                            cell_value = "\x1b[31m" + cell_value + "\x1b[0m";
+                            hasColor = true;
+                        }
+                    }
+
+                    // color solved cells blue
+                    if (!cell.given && cell.isSolved() && !hasColor) {
+                        cell_value = "\x1b[34m" + cell_value + "\x1b[0m";
+                        hasColor = true;
+                    }
+
+                    // color unknown cells yellow
+                    if (!cell.given && !cell.isSolved() && !hasColor) {
+                        cell_value = "\x1b[33m" + cell_value + "\x1b[0m";
+                        hasColor = true;
+                    }
+
+                    // color given cells black
+                    if (cell.given && !hasColor) {
+                        cell_value = "\x1b[30m" + cell_value + "\x1b[0m";
+                        hasColor = true;
+                    }
 
                     printStr +=
                         number_spaces +
