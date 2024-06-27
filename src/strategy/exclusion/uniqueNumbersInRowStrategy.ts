@@ -1,5 +1,5 @@
-import { SudokuBoard } from "../board";
-import { Cell } from "../cell";
+import { SudokuBoard } from "../../board";
+import { Cell } from "../../cell";
 import { UniqueNumberStrategy } from "./uniqueNumberStrategy";
 
 // eliminates cell value candidates in row where a cell has a value

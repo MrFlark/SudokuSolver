@@ -14,8 +14,6 @@ export class SudokuBoard {
     public readonly HEIGHT = 9;
     public readonly NUM_SQUARES = 9;
 
-    public readonly CONSOLE_WIDTH = 100;
-
     load(fileName: string): void {
 
         try {
@@ -38,10 +36,6 @@ export class SudokuBoard {
         } catch(error) {
             console.error(error);
         }
-    }
-
-    toString(): string {
-        return `TODO`;
     }
 
     getColumn(columnIndex: number): Cell[] {
@@ -76,6 +70,10 @@ export class SudokuBoard {
 
     getCell(rowIndex: number, columnIndex: number): Cell {
         return this.board[rowIndex][columnIndex];
+    }
+
+    getCells(): Cell[] {
+        return this.board.flat();
     }
 
     // TODO: cages, variable width spacing

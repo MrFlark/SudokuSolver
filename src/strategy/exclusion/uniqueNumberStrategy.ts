@@ -1,14 +1,14 @@
-import { SudokuBoard } from "../board";
-import { Cell } from "../cell";
-import { Strategy } from "./strategy";
+import { SudokuBoard } from "../../board";
+import { Cell } from "../../cell";
+import { Strategy, StrategyApplicationResult } from "../strategy";
 
 export abstract class UniqueNumberStrategy extends Strategy {
 
     abstract getCellGroups(board: SudokuBoard): Cell[][];
 
-    apply(board: SudokuBoard): number {
+    apply(board: SudokuBoard): StrategyApplicationResult {
 
-        let numCandidatesExcluded = 0;
+        let candidatesExcluded = 0;
 
         // get all cell values in each group
         // remove solved values from candidate list of other cells in that group        
@@ -28,12 +28,15 @@ export abstract class UniqueNumberStrategy extends Strategy {
                         cell.candidates = cell.candidates
                             .filter(candidate => !candidatesToExclude.includes(candidate));
 
-                        numCandidatesExcluded += prevCandidateListLength - cell.candidates.length;
+                        candidatesExcluded += prevCandidateListLength - cell.candidates.length;
                     }
                 });
             }
         });
 
-        return numCandidatesExcluded;
+        return {
+            candidatesExcluded,
+            cellsSolved: 0 // no cells are solved by this strategy
+        };
     }
 }

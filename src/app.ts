@@ -10,4 +10,4 @@ solve(board);
 
 // check solved
 
-board.print();
+// board.print();
