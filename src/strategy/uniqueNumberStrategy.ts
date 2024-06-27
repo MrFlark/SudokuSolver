@@ -15,12 +15,12 @@ export abstract class UniqueNumberStrategy extends Strategy {
             const candidatesToExclude = cells.filter(cell => cell.isSolved())
                 .map(cell => cell.value);
 
-            // cannot apply strategy to empty column
+            // cannot apply strategy to empty cell groups
             if (candidatesToExclude.length !== 0) {
                 cells.forEach(cell => {
                     if (!cell.isSolved()) {
                         cell.candidates = cell.candidates
-                            .filter(candidate => candidatesToExclude.indexOf(candidate) === -1);
+                            .filter(candidate => !candidatesToExclude.includes(candidate));
                     }
                 });
             }

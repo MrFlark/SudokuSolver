@@ -20,7 +20,7 @@ export class SudokuBoard {
 
         // TODO: real data
         this.board = [
-            [new Cell(1), new Cell(2), new Cell(3), new Cell(4), new Cell(5), new Cell(6), new Cell(7), new Cell(8), new Cell(9)],
+            [new Cell(), new Cell(2), new Cell(3), new Cell(4), new Cell(5), new Cell(6), new Cell(7), new Cell(8), new Cell(9)],
             [new Cell(2), new Cell(2), new Cell(3), new Cell(4), new Cell(5), new Cell(6), new Cell(7), new Cell(8), new Cell(9)],
             [new Cell(3), new Cell(2), new Cell(3), new Cell(4), new Cell(5), new Cell(6), new Cell(7), new Cell(8), new Cell(9)],
             [new Cell(4), new Cell(2), new Cell(3), new Cell(4), new Cell(5), new Cell(6), new Cell(7), new Cell(8), new Cell(9)],
@@ -198,10 +198,9 @@ export class SudokuBoard {
                 printStr +=
                     horizontal_border.repeat(square_width - 2) + // ─────
                     right_border; // ┤
-
-
             }
-            // spacer row
+
+            // spacer row (between numbers and borders)
             else if([1, 2, 4, 5, 7, 8, 10, 11].includes(mod)){
 
                 printStr += (
@@ -211,30 +210,28 @@ export class SudokuBoard {
                 + vertical_border; // │
 
             }
-            // number row case
+
+            // number row
             else if(mod === 3 || mod === 6 || mod === 9) {
 
+                // TODO: variable width spacing
                 let number_spaces = "   ";
 
-                printStr +=
-                    (vertical_border + // │
-                    number_spaces + this.board[rowIndex][0].value + number_spaces +
-                    number_spaces + this.board[rowIndex][1].value + number_spaces +
-                    number_spaces + this.board[rowIndex][2].value + number_spaces
-                    )
-                    +
-                    (vertical_border + // │
-                        number_spaces + this.board[rowIndex][3].value + number_spaces +
-                        number_spaces + this.board[rowIndex][4].value + number_spaces +
-                        number_spaces + this.board[rowIndex][5].value + number_spaces
-                        )
-                        +
-                        (vertical_border + // │
-                            number_spaces + this.board[rowIndex][6].value + number_spaces +
-                            number_spaces + this.board[rowIndex][7].value + number_spaces +
-                            number_spaces + this.board[rowIndex][8].value + number_spaces
-                            )
-                    + vertical_border; // │
+                printStr += vertical_border; // │
+
+                for (let colIndex = 0; colIndex < this.WIDTH; colIndex++) {
+
+                    let cell_value = this.board[rowIndex][colIndex].value || "?";
+
+                    printStr +=
+                        number_spaces +
+                        cell_value +
+                        number_spaces;
+
+                    if (colIndex % 3 === 2) {
+                        printStr += vertical_border; // │
+                    }
+                }
 
                 rowIndex++;
             }
