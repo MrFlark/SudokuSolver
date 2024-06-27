@@ -1,32 +1,20 @@
 import { SudokuBoard } from "../board";
-import { Strategy } from "./strategy";
+import { Cell } from "../cell";
+import { UniqueNumberStrategy } from "./uniqueNumberStrategy";
 
 // eliminates cell value candidates in row where a cell has a value
-export class UniqueNumsInRowStrategy extends Strategy {
+export class UniqueNumsInRowStrategy extends UniqueNumberStrategy {
     constructor() {
         super('UniqueNumsInRow');
     }
-    
-    apply(board: SudokuBoard): void {
-        // get all cell values in row
-        // remove solved values from other cells in row
+
+    getCellGroups(board: SudokuBoard): Cell[][] {
+        let cellGroups: Cell[][] = [];
 
         for (let rowIndex = 0; rowIndex < board.HEIGHT; rowIndex++) {
-            const row = board.getRow(rowIndex);
-            const candidatesToExclude = row.filter(cell => cell.isSolved())
-                                              .map(cell => cell.value);
-
-            if (candidatesToExclude.length === 0) {
-                // cannot apply strategy to empty row
-                continue;
-            }
-
-            row.forEach(cell => {
-                if (!cell.isSolved()) {
-                    cell.candidates = cell.candidates
-                        .filter(candidate => candidatesToExclude.indexOf(candidate) === -1);
-                }
-            });
+            cellGroups.push(board.getRow(rowIndex));
         }
+
+        return cellGroups;
     }
 }

@@ -1,4 +1,4 @@
 export * from './strategy';
-export * from './uniqueNumsInColumn';
+export * from './uniqueNumsInColumnStrategy';
 export * from './uniqueNumsInRow';
 export * from './uniqueNumsInSquare';
