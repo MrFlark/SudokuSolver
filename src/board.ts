@@ -56,20 +56,35 @@ export class SudokuBoard {
         let squares: Map<number, Cell[][]> = new Map();
         
         for(let squareIndex = 0; squareIndex < this.NUM_SQUARES; squareIndex++) {
-            squares[squareIndex] = this.getSquare(squareIndex);
+            squares.set(squareIndex, this.getSquare(squareIndex));
         }
 
         return squares;
     }
 
     getSquare(squareIndex: number): Cell[][] {
-        let cells = [];
-        const squareSize = Math.sqrt(this.NUM_SQUARES);
-        for (let rowIndex = Math.floor(squareIndex / squareSize) * 3; rowIndex < squareSize; rowIndex += 1) {
-            for (let colIndex = (squareIndex % squareSize) * 3; colIndex < squareSize; colIndex +=1) {
-                cells.push(this.board[rowIndex][colIndex]);
+        let cells: Cell[][] = [
+            [],
+            [],
+            []
+        ];
+
+        // TODO: variable size squares
+        const squareWidth = 3;
+        const squareHeight = 3;
+
+        let rowOffset = Math.floor(squareIndex / squareWidth) * squareHeight;
+        for (let rowIndex = rowOffset; rowIndex < rowOffset + squareHeight; rowIndex += 1) {
+            let colOffset = (squareIndex % squareWidth) * squareWidth;
+
+            for (let colIndex = colOffset; colIndex < colOffset + squareWidth; colIndex +=1) {
+
+                cells[rowIndex - rowOffset].push(this.board[rowIndex][colIndex]);
+
             }
+
         }
+
         return cells;
     }
 

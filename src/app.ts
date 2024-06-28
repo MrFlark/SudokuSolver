@@ -3,7 +3,7 @@ import { solve } from "./solver";
 
 const board = new SudokuBoard();
 
-board.load("testData/regular/easy2.txt");
+board.load("testData/regular/medium.txt");
 
 // call solver
 solve(board);

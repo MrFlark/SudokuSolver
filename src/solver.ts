@@ -3,6 +3,7 @@ import {
     SingleCandidateStrategy,
     UniqueCandidateInColumnStrategy,
     UniqueCandidateInRowStrategy,
+    UniqueCandidateInSquareStrategy,
     UniqueNumsInColumnStrategy,
     UniqueNumsInRowStrategy,
     UniqueNumsInSquareStrategy
@@ -19,7 +20,8 @@ const strategies = [
     new SingleCandidateStrategy(),
     new UniqueCandidateInColumnStrategy(),
     new UniqueCandidateInRowStrategy(),
-    new UniqueNumsInSquareStrategy()
+    new UniqueNumsInSquareStrategy(),
+    new UniqueCandidateInSquareStrategy()
 ];
 
 export function solve (board: SudokuBoard): void {
